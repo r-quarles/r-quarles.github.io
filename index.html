@@ -4,40 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Assignment 6 - Web Audio</title>
-    <!-- Include p5.js and p5.sound libraries from CDN -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js-sound/1.3.0/p5.sound.min.js"></script>
+    <script src="libraries/p5.sound.min.js"></script>
 </head>
 <body>
     <h1>Assignment 6 - Web Audio</h1>
     <h2>Rae Quarles</h2>
-
-    <!-- Button to start the sine wave -->
-    <button id="startButton">Start Sine Wave at 220Hz</button>
-
-    <script>
-        // Declare the oscillator object
-        let osc;
-
-        // This function is called once when the page is first loaded
-        function setup() {
-            createCanvas(400, 400); // Create a canvas (necessary for p5.js to initialize)
-            
-            // Initialize the oscillator
-            osc = new p5.Oscillator('sine');
-            osc.freq(220); // Set frequency to 220Hz (A3 note)
-            osc.amp(0); // Initially set the amplitude to 0, so no sound is heard
-
-            // Attach event listener to the button to start the audio
-            document.getElementById('startButton').addEventListener('click', startAudio);
-        }
-
-        // This function starts the oscillator when the button is clicked
-        function startAudio() {
-            // Start the oscillator and gradually ramp up the volume
-            osc.start();
-            osc.amp(0.5, 0.1); // Ramp the volume up to 0.5 over 0.1 seconds
-        }
-    </script>
 </body>
 </html>
+
