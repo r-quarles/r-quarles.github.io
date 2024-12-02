@@ -68,11 +68,11 @@
             frequencyDisplay = createP(`Frequency: ${slider.value()} Hz`);    //Make a new text element that can be changed
             frequencyDisplay.style('text-align', 'center');
             frequencyDisplay.style('font-size', '18px');
-            frequencyDisplay.position((windowWidth - 300) / 2, (windowHeight / 2) + 40);    //Start it in that same spot but below
+            frequencyDisplay.position((windowWidth - 150) / 2, (windowHeight / 2) + 40);    //Start it in that same spot but below
 
             //Create an on/off toggle button
             toggle = createButton('Turn Audio Off');
-            toggle.position(200, 100); // Position of the button
+            toggle.position((windowWidth - 300) / 2, (windowHeight / 2) - 40); // Position of the button above the slider
             toggle.mousePressed(toggleAudio);
         }
 
