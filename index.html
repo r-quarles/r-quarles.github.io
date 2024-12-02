@@ -1,20 +1,45 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <link rel="stylesheet" href="myStyle.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assignment 6 - Web Audio</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js-sound/1.3.0/p5.sound.min.js"></script>
 </head>
+<body>
+    <h1>Assignment 6 - Web Audio</h1>
+    <h2>Rae Quarles</h2>
 
-<h1>A Title</h1>
+    <!-- Button to start the sine wave -->
+    <button id="startButton">Start Sine Wave at 220Hz</button>
 
-<h2><i>A Heading</i></h2>
+    <script>
+        let osc;
+        let isAudioStarted = false;
 
-<p>
-A paragraph
-<br>
-With multiple lines
-</p>
+        // This function is called when the page is first loaded
+        function setup() {
+            // p5.js requires a canvas to run. This can be empty as we don't need to draw anything
+            createCanvas(400, 400);
 
-<img src="gogh_terrace.jpg" alt="Van Gogh's Cafe Terrace">
+            // Create the sine wave oscillator but don't start it yet
+            osc = new p5.Oscillator('sine');
+            osc.freq(220); // Set frequency to 220Hz (sine wave at 220Hz)
+            osc.amp(0); // Start with amplitude (volume) set to 0 (no sound)
 
+            // Attach the button click event to start the sound
+            document.getElementById('startButton').addEventListener('click', startAudio);
+        }
+
+        // Function to start the audio
+        function startAudio() {
+            if (!isAudioStarted) {
+                osc.start();  // Start the oscillator
+                osc.amp(0.5, 0.1); // Gradually bring up the volume to 0.5 over 0.1 seconds
+                isAudioStarted = true;  // Prevent starting the audio multiple times
+            }
+        }
+    </script>
 </body>
 </html>
