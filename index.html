@@ -3,12 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Assignment 6 - Web Audio</title>
+    <title>Web Audio - Slider Frequency Control</title>
+    <!-- Link to p5.js core library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.min.js"></script>
+    <!-- Link to p5.sound library -->
     <script src="libraries/p5.sound.min.js"></script>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+    </style>
 </head>
 <body>
-    <h1>Assignment 6 - Web Audio</h1>
-    <h2>Rae Quarles</h2>
-</body>
-</html>
+    <script>
+        let osc; // Oscillator
+        let slider; // Slider
+
+        function setup() {
+            createCanvas(windowWidth, windowHeight);
+
+            // Create a sine wave oscillator
+            osc = new p5.Oscillator('sine');
+            osc.start();
+            osc.freq(440); // Default frequency (A4)
+            osc.amp(0.5); // Set amplitude to half
+
+            // Create a slider
+            slider = createSlider(100, 1000, 440); // Range: 100Hz - 1000Hz
+            slider.position((windowWidth - 150) / 2, (windowHeight - 20) /
 
