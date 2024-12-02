@@ -1,30 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Web Audio - Slider Frequency Control</title>
-    <!-- Link to local libraries -->
-    <script src="libraries/p5.min.js"></script>
-    <script src="libraries/p5.sound.min.js"></script>
+    <meta charset="UTF-8">    <!-- This makes sure everything is encoded right? -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">    <!-- Makes the webpage adapt to whichever screen-->
+    <title>Web Audio - Slider Frequency Control</title>    <!-- Name it -->
+    <!-- Link to libraries within the repository -->
+    <script src="libraries/p5.min.js"></script>    <!-- mini library for p5-->
+    <script src="libraries/p5.sound.min.js"></script>    <!-- mini library for sound.js-->
     <style>
         body {
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
+            justify-content: center;
             height: 100vh;
             margin: 0;
             font-family: Arial, sans-serif;
         }
+        h1, h2 {
+            margin: 0;
+            padding: 10px;
+        }
+        h2 {
+            font-weight: normal;
+            color: gray;
+        }
     </style>
 </head>
 <body>
+    <h1>Assignment 6 - Web Audio</h1>    <!-- Some Info -->
+    <h2>Rae Quarles</h2>
+    <h3>Press the button to start/pause audio, drag the slider to control frequency</h3>
+
     <script>
-        let osc; // Oscillator
-        let slider; // Slider
+        let osc; //Name the osc
+        let slider; //Name the slider
+        let frequencyDisplay; //Name the paragraph which will show the freq
 
         function setup() {
-            createCanvas(windowWidth, windowHeight);
+            createCanvas(windowWidth, 100).parent(document.body);
 
             // Create a sine wave oscillator
             osc = new p5.Oscillator('sine');
@@ -32,15 +46,25 @@
             osc.freq(440); // Default frequency (A4)
             osc.amp(0.5); // Set amplitude to half
 
-            // Create a slider
+            //Make a horizontal slider in the center of the screen
             slider = createSlider(100, 1000, 440); // Range: 100Hz - 1000Hz
-            slider.position((windowWidth - 150) / 2, (windowHeight - 20) / 2);
-            slider.style('width', '300px');
+            slider.position((windowWidth - 300) / 2, windowHeight / 2);    //Start it 150 px before the middle of the screen
+            slider.style('width', '300px');    //Make a horizontal slider
+
+            // Create a frequency display
+            frequencyDisplay = createP(`Frequency: ${slider.value()} Hz`);    //Make a new text element that can be changed
+            frequencyDisplay.style('text-align', 'center');
+            frequencyDisplay.style('font-size', '18px');
+            frequencyDisplay.position((windowWidth - 300) / 2, (windowHeight / 2) + 40);    //Start it in that same spot but below
         }
 
         function draw() {
-            // Update the oscillator frequency based on the slider value
-            osc.freq(slider.value());
+            //Update the frequency based on the slider value
+            const freq = slider.value();
+            osc.freq(freq);
+
+            //Update the display
+            frequencyDisplay.html(`Frequency: ${freq} Hz`);
         }
     </script>
 </body>
