@@ -33,10 +33,6 @@
             font-size: 16px;
             color: #555;
         }
-
-        #slider-container {
-            margin-top: 40px;
-        }
     </style>
 </head>
 <body>
@@ -57,11 +53,11 @@
             // Create a sine wave oscillator
             osc = new p5.Oscillator('sine');
             osc.start();
-            osc.freq(440); // Default frequency (A4)
+            osc.freq(220); // Default frequency (A4)
             osc.amp(0.5); // Set amplitude to half
 
             //Make a horizontal slider in the center of the screen
-            slider = createSlider(100, 1000, 440); // Range: 100Hz - 1000Hz
+            slider = createSlider(80, 800, 440); // Range: 80Hz - 800Hz
             slider.position((windowWidth - 300) / 2, windowHeight / 2);    //Start it 150 px before the middle of the screen
             slider.style('width', '300px');    //Make a horizontal slider
 
