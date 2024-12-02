@@ -9,21 +9,32 @@
     <script src="libraries/p5.sound.min.js"></script>    <!-- mini library for sound.js-->
     <style>
         body {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
             margin: 0;
             font-family: Arial, sans-serif;
         }
-        h1, h2 {
-            margin: 0;
-            padding: 10px;
+        header {
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            color: white;
+            padding: 20px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
         }
-        h2 {
+        header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        header h2 {
+            margin: 0;
             font-weight: normal;
-            color: gray;
+            font-size: 16px;
+        }
+        header h3 {
+            margin: 20px;
+            color: #444;
+            font-size: 16px;
         }
     </style>
 </head>
@@ -36,6 +47,8 @@
         let osc; //Name the osc
         let slider; //Name the slider
         let frequencyDisplay; //Name the paragraph which will show the freq
+        let toggle; //A button to toggle audio
+        let audioOn = true; //State of the button
 
         function setup() {
             createCanvas(windowWidth, 100).parent(document.body);
@@ -56,6 +69,11 @@
             frequencyDisplay.style('text-align', 'center');
             frequencyDisplay.style('font-size', '18px');
             frequencyDisplay.position((windowWidth - 300) / 2, (windowHeight / 2) + 40);    //Start it in that same spot but below
+
+            //Create an on/off toggle button
+            toggle = createButton('Turn Audio Off');
+            toggle.position(200, 100); // Position of the button
+            toggle.mousePressed(toggleAudio);
         }
 
         function draw() {
@@ -65,6 +83,17 @@
 
             //Update the display
             frequencyDisplay.html(`Frequency: ${freq} Hz`);
+        }
+
+        function toggleAudio() {
+            if (audioOn) {
+                osc.amp(0); // Turn audio off
+                toggle.html('Turn Audio On');
+            } else {
+                osc.amp(0.5); // Turn audio on
+                toggle.html('Turn Audio Off');
+            }
+            audioOn = !audioOn; // Toggle the audio state
         }
     </script>
 </body>
