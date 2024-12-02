@@ -4,9 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Web Audio - Slider Frequency Control</title>
-    <!-- Link to p5.js core library -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.min.js"></script>
-    <!-- Link to p5.sound library -->
+    <!-- Link to local libraries -->
+    <script src="libraries/p5.min.js"></script>
     <script src="libraries/p5.sound.min.js"></script>
     <style>
         body {
@@ -35,5 +34,14 @@
 
             // Create a slider
             slider = createSlider(100, 1000, 440); // Range: 100Hz - 1000Hz
-            slider.position((windowWidth - 150) / 2, (windowHeight - 20) /
+            slider.position((windowWidth - 150) / 2, (windowHeight - 20) / 2);
+            slider.style('width', '300px');
+        }
 
+        function draw() {
+            // Update the oscillator frequency based on the slider value
+            osc.freq(slider.value());
+        }
+    </script>
+</body>
+</html>
