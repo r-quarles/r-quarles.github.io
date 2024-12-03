@@ -54,7 +54,7 @@
             // Create the oscillator and envelope
             osc = new p5.Oscillator('sine');
             env = new p5.Envelope();
-            env.setADSR(0.1, 0.2, 0.5, 0.3); // Attack, Decay, Sustain, Release
+            env.setADSR(0.1, 0.2, 60, 0.3); // Attack, Decay, Sustain, Release
             env.setRange(0.5, 0); // Max and min amplitudes
 
             // Create a low-pass filter and connect it
