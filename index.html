@@ -42,7 +42,6 @@
     <script>
         let osc; // Oscillator
         let env; // Envelope
-        let filter; // Filter
         let slider; // Slider
         let frequencyDisplay; // Frequency display
         let toggle; // Button to toggle audio
@@ -54,18 +53,12 @@
             // Create the oscillator and envelope
             osc = new p5.Oscillator('sine');
             env = new p5.Envelope();
-            env.setADSR(0.1, 0.2, 60, 0.3); // Attack, Decay, Sustain, Release
+            env.setADSR(0.1, 0.2, 1.0, 0.3); // Attack, Decay, Sustain (1.0 for indefinite), Release
             env.setRange(0.5, 0); // Max and min amplitudes
-
-            // Create a low-pass filter and connect it
-            filter = new p5.LowPass();
-            osc.disconnect();
-            osc.connect(filter);
-            filter.freq(800); // Set default filter frequency
 
             // Start the oscillator silently
             osc.start();
-            osc.amp(0);
+            osc.amp(0); // Ensure silence on load
 
             // Create the slider
             slider = createSlider(80, 800, 220); // Range: 80Hz - 800Hz
@@ -95,15 +88,15 @@
 
         function toggleAudio() {
             if (audioOn) {
-                // Trigger envelope release and stop the sound after release
+                // Trigger envelope release and silence oscillator
                 env.triggerRelease();
                 setTimeout(() => {
-                    osc.amp(0); // Ensure oscillator amplitude goes to zero
-                }, 400); // Adjust for the release time in the envelope
+                    osc.amp(0); // Ensure complete silence
+                }, 300); // Match the release time in the envelope
                 toggle.html('Turn Audio On');
             } else {
-                // Trigger envelope play
-                env.play(osc);
+                // Trigger envelope play and hold sustain indefinitely
+                env.play(osc, 0, 0.1); // Play with immediate attack
                 toggle.html('Turn Audio Off');
             }
             audioOn = !audioOn; // Toggle state
