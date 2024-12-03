@@ -60,12 +60,14 @@
             env.setADSR(0.1, 0.2, 0.5, 0.3); // Attack, Decay, Sustain, Release
             env.setRange(0.5, 0); // Max and min amplitudes
             filter = new p5.LowPass();
-            osc.disconnect(); osc.connect(filter);    //Connect it
+            osc.disconnect();
+            osc.connect(filter);  //Connect it
+            filter.freq(800);    //LPF at 800hz
 
             // Put it together
             osc.start();
-            osc.freq(220); // Default frequency (A4)
-            osc.amp(0.5); // Set amplitude to half
+           // osc.freq(220); // Default frequency (A4)
+            osc.amp(0); // Set amplitude to 0
             
             //Make a horizontal slider in the center of the screen
             slider = createSlider(80, 800, 220); // Range: 80Hz - 800Hz
@@ -88,7 +90,6 @@
             //Update the frequency based on the slider value
             const freq = slider.value();
             osc.freq(freq);
-            filter.freq(800); // Low-pass filter at 800Hz
 
             //Update the display
             frequencyDisplay.html(`Frequency: ${freq} Hz`);
