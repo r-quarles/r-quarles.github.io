@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">    <!-- This makes sure everything is encoded right? -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">    <!-- Makes the webpage adapt to whichever screen-->
-    <title>Web Audio - Slider Frequency Control</title>    <!-- Name it -->
-    <!-- Link to libraries within the repository -->
-    <script src="libraries/p5.min.js"></script>    <!-- mini library for p5-->
-    <script src="libraries/p5.sound.min.js"></script>    <!-- mini library for sound.js-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Audio - Slider Frequency Control</title>
+    <script src="libraries/p5.min.js"></script>
+    <script src="libraries/p5.sound.min.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -36,75 +35,80 @@
     </style>
 </head>
 <body>
-    <h1>Assignment 6 - Web Audio</h1>    <!-- Some Info -->
+    <h1>Assignment 6 - Web Audio</h1>
     <h2>Rae Quarles</h2>
     <h3>Press the button to start/pause audio, drag the slider to control frequency</h3>
 
     <script>
-        let osc; //Name the osc
-        let env; //An envelope
-        let filter; //A filter
-        let slider; //Name the slider
-        let frequencyDisplay; //Name the paragraph which will show the freq
-        let toggle; //A button to toggle audio
-        let audioOn = true; //State of the button
+        let osc; // Oscillator
+        let env; // Envelope
+        let filter; // Filter
+        let slider; // Slider
+        let frequencyDisplay; // Frequency display
+        let toggle; // Button to toggle audio
+        let audioOn = false; // Audio starts OFF
 
         function setup() {
             createCanvas(windowWidth, 100).parent(document.body);
 
-            // Create a sine wave oscillator
+            // Create the oscillator and envelope
             osc = new p5.Oscillator('sine');
-
-            // Create an ASDR env and low pass filter
             env = new p5.Envelope();
             env.setADSR(0.1, 0.2, 0.5, 0.3); // Attack, Decay, Sustain, Release
             env.setRange(0.5, 0); // Max and min amplitudes
+
+            // Create a low-pass filter and connect it
             filter = new p5.LowPass();
             osc.disconnect();
-            osc.connect(filter);  //Connect it
-            filter.freq(800);    //LPF at 800hz
+            osc.connect(filter);
+            filter.freq(800); // Set default filter frequency
 
-            // Put it together
+            // Start the oscillator silently
             osc.start();
-           // osc.freq(220); // Default frequency (A4)
-            osc.amp(0); // Set amplitude to 0
-            
-            //Make a horizontal slider in the center of the screen
-            slider = createSlider(80, 800, 220); // Range: 80Hz - 800Hz
-            slider.position((windowWidth - 300) / 2, windowHeight / 2);    //Start it 150 px before the middle of the screen
-            slider.style('width', '300px');    //Make a horizontal slider
+            osc.amp(0);
 
-            // Create a frequency display
-            frequencyDisplay = createP(`Frequency: ${slider.value()} Hz`);    //Make a new text element that can be changed
+            // Create the slider
+            slider = createSlider(80, 800, 220); // Range: 80Hz - 800Hz
+            slider.position((windowWidth - 300) / 2, windowHeight / 2);
+            slider.style('width', '300px');
+
+            // Frequency display
+            frequencyDisplay = createP(`Frequency: ${slider.value()} Hz`);
             frequencyDisplay.style('text-align', 'center');
             frequencyDisplay.style('font-size', '18px');
-            frequencyDisplay.position((windowWidth - 150) / 2, (windowHeight / 2) + 40);    //Start it in that same spot but below
+            frequencyDisplay.position((windowWidth - 150) / 2, (windowHeight / 2) + 40);
 
-            //Create an on/off toggle button
-            toggle = createButton('Turn Audio Off');
-            toggle.position((windowWidth - 300) / 2, (windowHeight / 2) - 40); // Position of the button above the slider
+            // Toggle button
+            toggle = createButton('Turn Audio On');
+            toggle.position((windowWidth - 300) / 2, (windowHeight / 2) - 40);
             toggle.mousePressed(toggleAudio);
         }
 
         function draw() {
-            //Update the frequency based on the slider value
+            // Update the frequency based on the slider value
             const freq = slider.value();
             osc.freq(freq);
 
-            //Update the display
+            // Update the frequency display
             frequencyDisplay.html(`Frequency: ${freq} Hz`);
         }
 
         function toggleAudio() {
             if (audioOn) {
-                env.triggerRelease(); // Turn audio off by releasing the env
+                // Trigger envelope release and stop the sound after release
+                env.triggerRelease();
+                setTimeout(() => {
+                    osc.amp(0); // Ensure oscillator amplitude goes to zero
+                }, 400); // Adjust for the release time in the envelope
                 toggle.html('Turn Audio On');
             } else {
-                env.play(osc); // Turn audio on with the env
+                // Trigger envelope play
+                env.play(osc);
                 toggle.html('Turn Audio Off');
             }
-            audioOn = !audioOn; // Toggle the audio state
+            audioOn = !audioOn; // Toggle state
         }
     </script>
 </body>
 </html>
+
