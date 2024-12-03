@@ -42,6 +42,8 @@
 
     <script>
         let osc; //Name the osc
+        let env; //An envelope
+        let filter; //A filter
         let slider; //Name the slider
         let frequencyDisplay; //Name the paragraph which will show the freq
         let toggle; //A button to toggle audio
@@ -52,10 +54,19 @@
 
             // Create a sine wave oscillator
             osc = new p5.Oscillator('sine');
+
+            // Create an ASDR env and low pass filter
+            env = new p5.Envelope();
+            env.setADSR(0.1, 0.2, 0.5, 0.3); // Attack, Decay, Sustain, Release
+            env.setRange(0.5, 0); // Max and min amplitudes
+            filter = new p5.LowPass();
+            osc1.disconnect(); osc1.connect(filter);    //Connect it
+
+            // Put it together
             osc.start();
             osc.freq(220); // Default frequency (A4)
             osc.amp(0.5); // Set amplitude to half
-
+            
             //Make a horizontal slider in the center of the screen
             slider = createSlider(80, 800, 220); // Range: 80Hz - 800Hz
             slider.position((windowWidth - 300) / 2, windowHeight / 2);    //Start it 150 px before the middle of the screen
@@ -77,6 +88,7 @@
             //Update the frequency based on the slider value
             const freq = slider.value();
             osc.freq(freq);
+            filter.freq(800); // Low-pass filter at 800Hz
 
             //Update the display
             frequencyDisplay.html(`Frequency: ${freq} Hz`);
@@ -84,10 +96,10 @@
 
         function toggleAudio() {
             if (audioOn) {
-                osc.amp(0); // Turn audio off
+                env.triggerRelease(); // Turn audio off by releasing the env
                 toggle.html('Turn Audio On');
             } else {
-                osc.amp(0.5); // Turn audio on
+                env.play(osc); // Turn audio on with the env
                 toggle.html('Turn Audio Off');
             }
             audioOn = !audioOn; // Toggle the audio state
