@@ -60,7 +60,7 @@
             env.setADSR(0.1, 0.2, 0.5, 0.3); // Attack, Decay, Sustain, Release
             env.setRange(0.5, 0); // Max and min amplitudes
             filter = new p5.LowPass();
-            osc1.disconnect(); osc1.connect(filter);    //Connect it
+            osc.disconnect(); osc.connect(filter);    //Connect it
 
             // Put it together
             osc.start();
