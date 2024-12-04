@@ -88,15 +88,10 @@
 
         function toggleAudio() {
             if (audioOn) {
-                // Trigger envelope release and silence oscillator
-                env.triggerRelease();
-                setTimeout(() => {
-                    osc.amp(0); // Ensure complete silence
-                }, 300); // Match the release time in the envelope
+                osc.amp(0);    //Turn off
                 toggle.html('Turn Audio On');
             } else {
-                // Trigger envelope play and hold sustain indefinitely
-                env.play(osc, 0, 0.1); // Play with immediate attack
+                osc.amp(0.5);    //Turn on
                 toggle.html('Turn Audio Off');
             }
             audioOn = !audioOn; // Toggle state
